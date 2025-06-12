@@ -1,0 +1,106 @@
+/* Fondo general */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #000; /* Fondo negro */
+  color: #000;
+  margin: 0;
+  padding: 0;
+}
+
+/* Encabezado y pie de página con fondo rojo */
+header, footer {
+  background-color: #e50914;
+  color: white;
+  padding: 25px 15px;
+  text-align: center;
+}
+
+/* Contenedor de tarjetas */
+.servicios {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 30px 10px;
+}
+
+/* Tarjeta blanca con altura uniforme */
+.tarjeta {
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(255,255,255,0.1);
+  width: 240px;
+  height: 240px; /* altura fija para alinear botones */
+  margin: 15px;
+  padding: 20px 15px;
+  text-align: center;
+  color: #111;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Contenido principal (imagen, título, precio) */
+.tarjeta .contenido {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+}
+
+/* Imagen del servicio */
+.tarjeta img {
+  width: 120px;
+  max-height: 90px;
+  object-fit: contain;
+  margin-bottom: 10px;
+}
+
+/* Nombre del servicio */
+.tarjeta h2 {
+  font-size: 18px;
+  margin: 0;
+  color: #111;
+  font-weight: bold;
+}
+
+/* Precio */
+.tarjeta p {
+  font-size: 18px;
+  margin: 4px 0 12px 0;
+  color: #222;
+  font-weight: bold;
+}
+
+/* Botón Comprar Ahora */
+.tarjeta a {
+  display: inline-block;
+  background-color: #e50914;
+  color: white;
+  padding: 12px 18px;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 14px;
+  box-shadow: 0 3px 8px rgba(255, 0, 0, 0.4);
+  transition: all 0.3s ease;
+}
+
+.tarjeta a:hover {
+  background-color: #ff0000;
+  transform: scale(1.05);
+}
+
+/* Pie de página texto pequeño */
+footer p {
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+/* Responsive: tarjetas en columna en móvil */
+@media (max-width: 600px) {
+  .tarjeta {
+    width: 90%;
+  }
+}
