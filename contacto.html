@@ -2,29 +2,149 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Contacto – NEFTSTREAM</title>
-  <meta name="description" content="Contáctanos vía correo o WhatsApp para adquirir tu pantalla de streaming con NEFTSTREAM.">
-  <meta name="keywords" content="contacto neftstream, whatsapp netflix, soporte pantallas, atención al cliente neftstream">
+  <meta name="description" content="Ponte en contacto con NEFTSTREAM para adquirir tus servicios de streaming premium y resolver tus dudas.">
+  <meta name="keywords" content="neftstream, contacto, ayuda, soporte, whatsapp, servicio al cliente, comprar pantallas">
   <meta name="author" content="Neftalí Uscategui Pérez">
   <link rel="stylesheet" href="style.css" />
+  <style>
+    .contenido {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    .contenido h2 {
+      font-size: 26px;
+      margin-bottom: 15px;
+      color: #111;
+    }
+
+    .contenido p {
+      font-size: 18px;
+      line-height: 1.6;
+      color: #222;
+      text-align: justify;
+      margin-bottom: 30px;
+    }
+
+    .contacto-bg {
+      background-color: #f5f5f5;
+      border-radius: 12px;
+      padding: 40px 20px;
+      margin: 20px 0;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    input, textarea {
+      padding: 12px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    button {
+      background-color: #e50914;
+      color: white;
+      font-weight: bold;
+      font-size: 16px;
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    button:hover {
+      background-color: #ff2c2c;
+      transform: scale(1.05);
+    }
+
+    .botones-contacto {
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+      margin-top: 20px;
+    }
+
+    .botones-contacto a img {
+      width: 48px;
+      height: 48px;
+      transition: transform 0.3s ease;
+    }
+
+    .botones-contacto a:hover img {
+      transform: scale(1.15);
+    }
+  </style>
 </head>
 <body>
+
   <header>
-    <h1>CONTÁCTANOS</h1>
-    <p>¿Tienes dudas o deseas comprar? ¡Escríbenos!</p>
+    <h1>CONTACTO</h1>
+    <nav>
+      <a href="index.html">INICIO</a>
+      <a href="nosotros.html">NOSOTROS</a>
+      <a href="contacto.html" style="font-weight: bold;">CONTACTANOS</a>
+    </nav>
   </header>
 
-  <section>
-    <h2>Correo electrónico</h2>
-    <p>info@neftstream.com</p>
-    <h2>WhatsApp</h2>
-    <p><a href="https://wa.me/573234416470" target="_blank">+57 323 441 6470</a></p>
-  </section>
+  <main class="contenido">
+    <section class="contacto-bg">
+      <h2>¿Tienes dudas o quieres comprar un servicio?</h2>
+      <p>
+        Estamos aquí para ayudarte. Completa el formulario o escríbenos directamente a nuestro WhatsApp para recibir atención personalizada. En <strong>NEFTSTREAM</strong> te garantizamos respuestas rápidas y efectivas.
+      </p>
+
+      <form action="mailto:info@neftstream.com" method="post" enctype="text/plain">
+        <input type="text" name="nombre" placeholder="Tu nombre" required />
+        <input type="email" name="email" placeholder="Tu WhatsApp" required />
+        <textarea name="mensaje" placeholder="Escribe tu mensaje aquí..." required></textarea>
+        <button type="submit">Enviar mensaje</button>
+      </form>
+
+     <p style="margin-top: 25px; color: #111; text-align: center;">
+        También puedes escribirnos directamente por <strong>WhatsApp</strong> o seguirnos en <strong>Instagram</strong>
+      </p>
+
+      <div class="botones-contacto">
+        <a href="https://wa.me/573234416470" target="_blank" title="WhatsApp">
+          <img src="imagenes/whatsapp-icon.png" alt="WhatsApp" />
+        </a>
+        <a href="https://www.instagram.com/neftstream_hub?igsh=MWFmejdzYjJoZ2I1" target="_blank" title="Instagram">
+          <img src="imagenes/instagram-icon.png" alt="Instagram" />
+        </a>
+      </div>
+      <!-- Botón flotante de WhatsApp con efecto latido -->
+<div class="whatsapp-container">
+  <div class="whatsapp-bubble">¿Necesitas ayuda? Escríbenos</div>
+  <a href="https://wa.me/573234416470" target="_blank" class="whatsapp-float" title="Chatea con nosotros por WhatsApp">
+    <img src="imagenes/whatsapp-icon.png" alt="WhatsApp" />
+  </a>
+</div>
+
+    </section>
+  </main>
 
   <footer>
     <h2>NEFTSTREAM</h2>
     <p>Contacto: info@neftstream.com | WhatsApp: +57 3234416470</p>
     <p>Diseñada y creada por Neftalí Uscategui Pérez – NEFTSTREAM (NS)</p>
   </footer>
+
 </body>
 </html>

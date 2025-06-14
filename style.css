@@ -1,18 +1,49 @@
 /* Fondo general */
 body {
   font-family: Arial, sans-serif;
-  background-color: #000; /* Fondo negro */
-  color: #000;
+  background-color: #121212; /* Gris muy oscuro */
+  color: #f2f2f2; /* Blanco suave */
   margin: 0;
   padding: 0;
 }
 
-/* Encabezado y pie de página con fondo rojo */
+/* Encabezado y pie de página con gradiente rojo */
 header, footer {
-  background-color: #e50914;
+  background: linear-gradient(90deg, #b1060f, #e50914);
   color: white;
   padding: 25px 15px;
   text-align: center;
+}
+
+/* Navegación */
+nav {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 15px;
+}
+
+nav a {
+  text-decoration: none;
+  background-color: #b1060f;
+  color: #fff;
+  border: 1px solid #fff;
+  padding: 10px 15px;
+  border-radius: 8px;
+  font-weight: normal;
+  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+nav a:hover {
+  background-color: #ff2c2c;
+  transform: scale(1.08);
+  box-shadow: 0 0 10px rgba(255, 60, 60, 0.7);
+}
+
+nav a[style*="font-weight: bold;"] {
+  font-weight: bold;
+  border: 2px solid #fff;
+  background-color: #ff2c2c;
 }
 
 /* Contenedor de tarjetas */
@@ -28,9 +59,9 @@ header, footer {
   background-color: #ffffff;
   border: 1px solid #ccc;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(255,255,255,0.1);
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.08);
   width: 240px;
-  height: 240px; /* altura fija para alinear botones */
+  height: 240px;
   margin: 15px;
   padding: 20px 15px;
   text-align: center;
@@ -76,19 +107,19 @@ header, footer {
 /* Botón Comprar Ahora */
 .tarjeta a {
   display: inline-block;
-  background-color: #e50914;
+  background-color: #ff2c2c;
   color: white;
   padding: 12px 18px;
   text-decoration: none;
   border-radius: 6px;
   font-weight: bold;
   font-size: 14px;
-  box-shadow: 0 3px 8px rgba(255, 0, 0, 0.4);
+  box-shadow: 0 3px 8px rgba(255, 60, 60, 0.4);
   transition: all 0.3s ease;
 }
 
 .tarjeta a:hover {
-  background-color: #ff0000;
+  background-color: #ff4d4d;
   transform: scale(1.05);
 }
 
@@ -104,3 +135,96 @@ footer p {
     width: 90%;
   }
 }
+.contenido h2 {
+  text-align: left;
+  margin-top: 0;
+}
+.contenido-ajustada {
+  margin-top: 0; /* elimina espacio innecesario arriba */
+  padding-top: 20px; /* menor relleno arriba si lo deseas */
+}
+
+.contenido-ajustada h2:first-of-type {
+  margin-top: 0;
+}
+
+/* Contenedor fijo */
+.whatsapp-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 999;
+}
+
+
+/* Botón flotante de WhatsApp */
+.whatsapp-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+/* Burbuja de mensaje */
+.whatsapp-bubble {
+  background-color: #25d366;
+  color: white;
+  padding: 10px 14px;
+  border-radius: 20px;
+  font-size: 14px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  animation: fadeSlide 0.8s ease-out;
+}
+
+/* Botón con efecto de latido */
+.whatsapp-float {
+  background-color: #25d366;
+  border-radius: 50%;
+  padding: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  animation: pulse 1.4s infinite;
+  transition: transform 0.3s ease;
+}
+
+.whatsapp-float:hover {
+  transform: scale(1.2);
+}
+
+.whatsapp-float img {
+  width: 40px;
+  height: 40px;
+}
+/* Animaciones */
+@keyframes fadeSlide {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.1);
+  }
+  50% {
+    transform: scale(0.95);
+  }
+  75% {
+    transform: scale(1.08);
+  }
+  100% {
+    transform: scale(1);
+  }
+} 
+
