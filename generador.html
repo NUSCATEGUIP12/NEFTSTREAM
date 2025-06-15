@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Generador Seguro NeftStream</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sistema NeftStream</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
   <style>
     body {
@@ -12,18 +11,17 @@
       color: white;
       font-family: Arial, sans-serif;
       padding: 20px;
-      display: none;
     }
     input, button, select, textarea {
       width: 100%;
       padding: 12px;
       margin: 10px 0;
-      border: none;
       border-radius: 5px;
       font-size: 16px;
       box-sizing: border-box;
       background-color: #1e1e1e;
       color: white;
+      border: none;
     }
     button {
       background-color: red;
@@ -36,7 +34,6 @@
       width: 100%;
       margin-top: 20px;
       border-collapse: collapse;
-      background-color: #1e1e1e;
     }
     th, td {
       padding: 8px;
@@ -45,61 +42,65 @@
     th {
       background-color: #333;
     }
+    #app {
+      display: none;
+    }
   </style>
 </head>
 <body>
 
-<div id="login">
-  <h2>🔐 Iniciar sesión</h2>
-  <input type="text" id="usuario" placeholder="Usuario">
-  <input type="password" id="clave" placeholder="Contraseña">
-  <button onclick="autenticar()">Entrar</button>
-  <p id="errorLogin" style="color: red;"></p>
-</div>
+  <div id="login">
+    <h2>🔐 Iniciar sesión</h2>
+    <input type="text" id="usuario" placeholder="Usuario" />
+    <input type="password" id="clave" placeholder="Contraseña" />
+    <button onclick="autenticar()">Entrar</button>
+    <p id="errorLogin" style="color: red;"></p>
+  </div>
 
-<div id="app" style="display: none;">
-  <h2>🎬 Generador NeftStream</h2>
+  <div id="app">
+    <h2>🎬 Generador NeftStream</h2>
 
-  <label>Correo:</label>
-  <input type="email" id="correo" placeholder="Pega el correo aquí">
+    <label>Correo:</label>
+    <input type="email" id="correo" placeholder="Pega el correo aquí" />
 
-  <label>Contraseña:</label>
-  <input type="text" id="contrasena" placeholder="Pega la contraseña aquí">
+    <label>Contraseña:</label>
+    <input type="text" id="contrasena" placeholder="Pega la contraseña aquí" />
 
-  <label>Estado de pago:</label>
-  <select id="estadoPago">
-    <option value="Debe">Debe</option>
-    <option value="Pagó">Pagó</option>
-  </select>
+    <label>Estado de pago:</label>
+    <select id="estadoPago">
+      <option value="Debe">Debe</option>
+      <option value="Pagó">Pagó</option>
+    </select>
 
-  <button onclick="generar()">Generar Mensaje</button>
+    <button onclick="generar()">Generar Mensaje</button>
 
-  <textarea id="mensaje" readonly></textarea>
-  <button onclick="copiar()">📋 Copiar Mensaje</button>
-  <button onclick="exportarMes()">📤 Exportar a Excel</button>
-  <br><br>
-  <label>📥 Importar archivo Excel para actualizar pagos:</label>
-  <input type="file" id="archivoExcel" accept=".xlsx" onchange="importarPagos()" />
+    <textarea id="mensaje" readonly></textarea>
+    <button onclick="copiar()">📋 Copiar Mensaje</button>
+    <button onclick="exportarMes()">📤 Exportar a Excel</button>
+    <br /><br />
+    <label>📥 Importar archivo Excel para actualizar pagos:</label>
+    <input type="file" id="archivoExcel" accept=".xlsx" onchange="importarPagos()" />
 
-  <h3>📅 Tabla de registros del mes actual</h3>
-  <table>
-    <thead>
-      <tr>
-        <th>Correo</th>
-        <th>Perfil</th>
-        <th>Generado por</th>
-        <th>Estado</th>
-      </tr>
-    </thead>
-    <tbody id="tabla"></tbody>
-  </table>
-</div>
+    <h3>📅 Registros del mes actual</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Correo</th>
+          <th>Perfil</th>
+          <th>Generado por</th>
+          <th>Estado</th>
+          <th>Fecha</th>
+        </tr>
+      </thead>
+      <tbody id="tabla"></tbody>
+    </table>
+  </div>
 
 <script>
   const usuarios = {
-    "persona1": "clave1",
-    "persona2": "clave2",
-    "persona3": "clave3"
+    Sneider: "8xK3vL91",
+    Jaidith: "A7qzP03b",
+    Neftali: "tR94xDwm"
   };
 
   let usuarioActivo = "";
@@ -108,7 +109,7 @@
 
   function obtenerMesActual() {
     const d = new Date();
-    return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, '0');
+    return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0");
   }
 
   function autenticar() {
@@ -116,7 +117,6 @@
     const p = document.getElementById("clave").value.trim();
     if (usuarios[u] === p) {
       usuarioActivo = u;
-      document.body.style.display = "block";
       document.getElementById("login").style.display = "none";
       document.getElementById("app").style.display = "block";
       actualizarTabla();
@@ -138,6 +138,7 @@
     const contrasena = document.getElementById("contrasena").value.trim();
     const estado = document.getElementById("estadoPago").value;
     const mes = obtenerMesActual();
+    const fecha = new Date().toLocaleString();
 
     if (!correo || !contrasena) {
       alert("Debe ingresar correo y contraseña.");
@@ -173,7 +174,7 @@ Encuentra más ofertas aquí:
 
     document.getElementById("mensaje").value = mensaje;
 
-    registros[mes].push({ correo, perfil, operador: usuarioActivo, estado });
+    registros[mes].push({ correo, perfil, operador: usuarioActivo, estado, fecha });
     localStorage.setItem("neftstreamRegistros", JSON.stringify(registros));
     actualizarTabla();
   }
@@ -200,7 +201,8 @@ Encuentra más ofertas aquí:
             <option value="Debe" ${r.estado === "Debe" ? "selected" : ""}>Debe</option>
             <option value="Pagó" ${r.estado === "Pagó" ? "selected" : ""}>Pagó</option>
           </select>
-        </td>`;
+        </td>
+        <td>${r.fecha}</td>`;
       tbody.appendChild(row);
     });
   }
@@ -213,9 +215,9 @@ Encuentra más ofertas aquí:
 
   function exportarMes() {
     const mes = obtenerMesActual();
-    const data = [["Correo", "Perfil", "Operador", "Estado"]];
+    const data = [["Correo", "Perfil", "Operador", "Estado", "Fecha"]];
     (registros[mes] || []).forEach(r => {
-      data.push([r.correo, r.perfil, r.operador, r.estado]);
+      data.push([r.correo, r.perfil, r.operador, r.estado, r.fecha]);
     });
     const wb = XLSX.utils.book_new();
     const ws = XLSX.utils.aoa_to_sheet(data);
@@ -243,6 +245,5 @@ Encuentra más ofertas aquí:
     reader.readAsArrayBuffer(file);
   }
 </script>
-
 </body>
 </html>
