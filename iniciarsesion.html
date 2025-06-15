@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Sistema NeftStream</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -60,6 +60,8 @@
 
 <div id="app">
   <h2>🎬 Generador NeftStream</h2>
+  <button onclick="cerrarSesion()" style="background-color:#444;">🔒 Cerrar sesión</button>
+
 
   <label>Correo:</label>
   <input type="email" id="correo" placeholder="Pega el correo aquí">
@@ -124,13 +126,12 @@
     <tbody id="tabla"></tbody>
   </table>
 </div>
-
 <script>
 const usuarios = {
-  Sneider: "000111",
-  Jaidith: "2000",
-  Neftali: "1004822917",
-  ADMIN: "1004822917"
+  Sneider: "123456",
+  Jaidith: "2020",
+  Neftali: "10048",
+  ADMIN: "10048"
 };
 
 let usuarioActivo = "";
@@ -216,50 +217,64 @@ function actualizarTabla() {
     .reverse();
 
   datos.forEach((r, i) => {
+    const realIndex = registros[mes].length - 1 - i;
     const color = r.estado === "Debe" ? "#801f1f" : "#1f8034";
     const row = document.createElement("tr");
-    if (usuarioActivo === "ADMIN") {
-      row.innerHTML = `
-        <td><input value="${r.correo}" onchange="editarCampo('${mes}', ${i}, 'correo', this.value)" /></td>
-        <td><input value="${r.contrasena}" onchange="editarCampo('${mes}', ${i}, 'contrasena', this.value)" /></td>
-        <td><input type="number" value="${r.perfil}" onchange="editarCampo('${mes}', ${i}, 'perfil', this.value)" /></td>
-        <td>
-          <select onchange="editarCampo('${mes}', ${i}, 'operador', this.value)">
-            <option value="Sneider" ${r.operador === "Sneider" ? "selected" : ""}>Sneider</option>
-            <option value="Jaidith" ${r.operador === "Jaidith" ? "selected" : ""}>Jaidith</option>
-            <option value="Neftali" ${r.operador === "Neftali" ? "selected" : ""}>Neftali</option>
-            <option value="ADMIN" ${r.operador === "ADMIN" ? "selected" : ""}>ADMIN</option>
-          </select>
-        </td>
-        <td style="background-color:${color}">
-          <select onchange="editarCampo('${mes}', ${i}, 'estado', this.value)">
-            <option value="Debe" ${r.estado === "Debe" ? "selected" : ""}>Debe</option>
-            <option value="Pagó" ${r.estado === "Pagó" ? "selected" : ""}>Pagó</option>
-          </select>
-        </td>
-        <td><input value="${r.fecha}" onchange="editarCampo('${mes}', ${i}, 'fecha', this.value)" /></td>
-        <td><button onclick="eliminarRegistro('${mes}', ${i})">❌</button></td>
-      `;
-    } else {
-      row.innerHTML = `
-        <td>${r.correo}</td>
-        <td>${r.contrasena}</td>
-        <td>${r.perfil}</td>
-        <td>${r.operador}</td>
-        <td style="background-color:${color}">
-          <select onchange="editarCampo('${mes}', ${i}, 'estado', this.value)">
-            <option value="Debe" ${r.estado === "Debe" ? "selected" : ""}>Debe</option>
-            <option value="Pagó" ${r.estado === "Pagó" ? "selected" : ""}>Pagó</option>
-          </select>
-        </td>
-        <td>${r.fecha}</td>
-        <td></td>
-      `;
+
+    const crearCeldaEditable = (valor, campo) => {
+      const td = document.createElement("td");
+      if (usuarioActivo === "ADMIN") {
+        const input = document.createElement("input");
+        input.value = valor;
+        input.onchange = () => editarCampo(mes, realIndex, campo, input.value);
+        td.appendChild(input);
+      } else {
+        td.textContent = valor;
+      }
+      return td;
+    };
+
+    row.appendChild(crearCeldaEditable(r.correo, "correo"));
+    row.appendChild(crearCeldaEditable(r.contrasena, "contrasena"));
+    row.appendChild(crearCeldaEditable(r.perfil, "perfil"));
+
+    const tdOperador = document.createElement("td");
+    tdOperador.textContent = r.operador;
+    row.appendChild(tdOperador);
+
+    const tdEstado = document.createElement("td");
+    tdEstado.style.backgroundColor = color;
+    const selectEstado = document.createElement("select");
+    ["Debe", "Pagó"].forEach(op => {
+      const option = document.createElement("option");
+      option.value = op;
+      option.textContent = op;
+      if (r.estado === op) option.selected = true;
+      selectEstado.appendChild(option);
+    });
+    selectEstado.onchange = () => editarCampo(mes, realIndex, "estado", selectEstado.value);
+    tdEstado.appendChild(selectEstado);
+    row.appendChild(tdEstado);
+
+    const tdFecha = document.createElement("td");
+    tdFecha.textContent = r.fecha;
+    row.appendChild(tdFecha);
+
+    const tdAccion = document.createElement("td");
+    const puedeEliminar = usuarioActivo === "ADMIN" || r.operador === usuarioActivo;
+    if (puedeEliminar) {
+      const btnEliminar = document.createElement("button");
+      btnEliminar.textContent = "❌";
+      btnEliminar.onclick = () => eliminarRegistro(mes, realIndex);
+      tdAccion.appendChild(btnEliminar);
     }
+    row.appendChild(tdAccion);
+
     tbody.appendChild(row);
   });
 }
-
+</script>
+<script>
 function editarCampo(mes, index, campo, valor) {
   registros[mes][index][campo] = valor;
   localStorage.setItem("neftstreamRegistros", JSON.stringify(registros));
@@ -273,7 +288,123 @@ function eliminarRegistro(mes, index) {
     actualizarTabla();
   }
 }
-</script>
 
+function generarResumen() {
+  const mes = obtenerMesActual();
+  const datos = registros[mes] || [];
+  const resumen = {};
+
+  datos.forEach(r => {
+    if (!resumen[r.operador]) resumen[r.operador] = { total: 0, debe: 0, detalles: [] };
+    resumen[r.operador].total++;
+    if (r.estado === "Debe") {
+      resumen[r.operador].debe++;
+      resumen[r.operador].detalles.push(`Correo: ${r.correo} | Perfil: ${r.perfil}`);
+    }
+  });
+
+  let html = `<ul>`;
+  for (const user in resumen) {
+    const reg = resumen[user];
+    const valor = reg.debe * 9000;
+    html += `<li><b>${user}</b>: ${reg.total} perfiles | ${reg.debe} debe = $${valor.toLocaleString()}<ul>`;
+    reg.detalles.forEach(linea => html += `<li>${linea}</li>`);
+    html += `</ul></li>`;
+  }
+  html += `</ul>`;
+  document.getElementById("resumen").innerHTML = html;
+}
+
+function exportarResumenPDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  doc.setFontSize(12);
+  doc.text("Resumen de Deudas NeftStream", 10, 10);
+
+  const mes = obtenerMesActual();
+  const datos = registros[mes] || [];
+  const resumen = {};
+
+  datos.forEach(r => {
+    if (r.estado !== "Debe") return;
+    if (!resumen[r.operador]) resumen[r.operador] = [];
+    resumen[r.operador].push(r);
+  });
+
+  let y = 20;
+  for (const user in resumen) {
+    doc.setFont(undefined, "bold");
+    doc.text(`${user}`, 10, y);
+    y += 6;
+    doc.setFont(undefined, "normal");
+    let total = 0;
+    resumen[user].forEach(r => {
+      doc.text(`Correo: ${r.correo} | Perfil: ${r.perfil} | $9.000`, 10, y);
+      y += 6;
+      total += 9000;
+    });
+    doc.text(`Total a cobrar: $${total.toLocaleString()}`, 10, y);
+    y += 10;
+  }
+
+  doc.save(`resumen_cobros_${mes}.pdf`);
+}
+
+function exportarMes() {
+  const mes = obtenerMesActual();
+  const datos = registros[mes] || [];
+  const ws_data = [["Correo", "Contraseña", "Perfil", "Generado por", "Estado", "Fecha"]];
+  datos.forEach(r => {
+    ws_data.push([r.correo, r.contrasena, r.perfil, r.operador, r.estado, r.fecha]);
+  });
+  const wb = XLSX.utils.book_new();
+  const ws = XLSX.utils.aoa_to_sheet(ws_data);
+  XLSX.utils.book_append_sheet(wb, ws, mes);
+  XLSX.writeFile(wb, `registros_${mes}.xlsx`);
+}
+
+function importarPagos() {
+  const file = document.getElementById("archivoExcel").files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function (e) {
+    const data = new Uint8Array(e.target.result);
+    const workbook = XLSX.read(data, { type: "array" });
+    const firstSheetName = workbook.SheetNames[0];
+    const worksheet = workbook.Sheets[firstSheetName];
+    const rows = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+
+    const mes = obtenerMesActual();
+    const datosMes = registros[mes] || [];
+
+    rows.slice(1).forEach(row => {
+      const [correo, , perfil, , estado] = row;
+      const registro = datosMes.find(r => r.correo === correo && r.perfil == perfil);
+      if (registro && estado) {
+        registro.estado = estado;
+      }
+    });
+
+    registros[mes] = datosMes;
+    localStorage.setItem("neftstreamRegistros", JSON.stringify(registros));
+    actualizarTabla();
+    alert("Pagos actualizados correctamente desde Excel.");
+  };
+
+  reader.readAsArrayBuffer(file);
+}
+function cerrarSesion() {
+  if (confirm("¿Deseas cerrar sesión?")) {
+    usuarioActivo = "";
+    document.getElementById("app").style.display = "none";
+    document.getElementById("login").style.display = "block";
+    document.getElementById("usuario").value = "";
+    document.getElementById("clave").value = "";
+    document.getElementById("errorLogin").innerText = "";
+  }
+}
+
+</script>
 </body>
 </html>
