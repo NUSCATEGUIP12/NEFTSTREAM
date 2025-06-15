@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Generador NeftStream</title>
+  <style>
+    body {
+      background-color: #121212;
+      color: #ffffff;
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      margin: 0;
+    }
+    h1 {
+      font-size: 24px;
+      text-align: center;
+    }
+    label {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    input, select, textarea, button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 5px;
+      margin-bottom: 15px;
+      border: none;
+      border-radius: 5px;
+      box-sizing: border-box;
+      font-size: 16px;
+    }
+    input, select, textarea {
+      background-color: #1e1e1e;
+      color: white;
+    }
+    button {
+      background-color: red;
+      color: white;
+      font-weight: bold;
+    }
+    button:hover {
+      background-color: darkred;
+    }
+    textarea {
+      height: 280px;
+      resize: none;
+    }
+    #copiado {
+      color: lime;
+      text-align: center;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🎬 Generador Netflix NeftStream</h1>
+
+  <label for="correo">Correo:</label>
+  <input type="email" id="correo" placeholder="ejemplo@correo.com">
+
+  <label for="contrasena">Contraseña:</label>
+  <input type="text" id="contrasena" placeholder="Tu contraseña">
+
+  <label for="perfil">Perfil (1 a 5):</label>
+  <select id="perfil">
+    <option value="1">Perfil 1</option>
+    <option value="2">Perfil 2</option>
+    <option value="3">Perfil 3</option>
+    <option value="4">Perfil 4</option>
+    <option value="5">Perfil 5</option>
+  </select>
+
+  <button onclick="generarMensaje()">Generar Mensaje</button>
+
+  <label for="mensaje">Mensaje generado:</label>
+  <textarea id="mensaje" readonly></textarea>
+
+  <button onclick="copiarMensaje()">📋 Copiar Mensaje</button>
+  <p id="copiado">¡Mensaje copiado al portapapeles!</p>
+
+  <script>
+    function generarMensaje() {
+      const correo = document.getElementById("correo").value.trim();
+      const contrasena = document.getElementById("contrasena").value.trim();
+      const perfil = parseInt(document.getElementById("perfil").value);
+      const pin = 2010 + perfil;
+
+      const mensaje = `🎬 *Pantalla de Netflix Activa* 🎬
+
+📧 *Correo:* ${correo}
+🔑 *Contraseña:* ${contrasena}
+🧏🏽‍♂️ *Perfil:* ${perfil}
+🔒 *PIN de Acceso:* ${pin}
+
+✨ *Importante:* No compartir o cambiar contraseñas para evitar suspensión de la cuenta 🌟. ¡Disfruta de tu contenido! 🍿🎬🎉
+
+-—
+✅ *¡Muchas gracias por tu compra!* 
+🛒 Esperamos que disfrutes de tu pantalla📺🍿
+Cualquier duda, estamos aquí para ayudarte.
+¡Que disfrutes de tu suscripción! 🎬😊
+
+Encuentra más ofertas aquí:
+👉 https://neftaliuscategui.com`;
+
+      document.getElementById("mensaje").value = mensaje;
+    }
+
+    function copiarMensaje() {
+      const textarea = document.getElementById("mensaje");
+      textarea.select();
+      document.execCommand("copy");
+      document.getElementById("copiado").style.display = "block";
+      setTimeout(() => {
+        document.getElementById("copiado").style.display = "none";
+      }, 2000);
+    }
+  </script>
+
+</body>
+</html>
